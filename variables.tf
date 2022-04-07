@@ -25,7 +25,7 @@ variable "public_subnet_availability_zones" {
 }
 
 variable "private_subnet_availability_zones" {
-  type = map(string)
+  type        = map(string)
   description = "The availability zones to use for the private subnets"
 }
 
