@@ -9,6 +9,13 @@ output "vpc_public_subnets" {
   }
 }
 
+output "vpc_public_subnet_ids" {
+  value = [
+    for subnet in aws_subnet.public_subnet :
+    subnet.id
+  ]
+}
+
 output "vpc_private_subnets" {
   value = {
     for subnet in aws_subnet.private_subnet :

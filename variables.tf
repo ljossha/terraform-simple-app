@@ -64,3 +64,50 @@ variable "db_instance_class" {
   description = "The database instance class"
   default     = "db.t2.micro"
 }
+
+# ECR
+
+variable "repository_name" {
+  type        = string
+  description = "The name of the ECR repository"
+}
+
+# ALB
+variable "lb_name" {
+  type        = string
+  description = "The name of the ALB"
+}
+
+# ECS
+variable "family" {
+  type        = string
+  description = "The name of the ECS family"
+}
+
+variable "container_name" {
+  type        = string
+  description = "The name of the ECS container"
+}
+
+variable "container_image" {
+  type        = string
+  description = "The name of the ECS container image"
+}
+
+variable "cpu" {
+  type        = number
+  description = "The number of CPU units to allocate"
+  default     = 256
+}
+
+variable "memory" {
+  type        = number
+  description = "The amount of memory to allocate"
+  default     = 512
+}
+
+variable "container_port" {
+  type        = number
+  description = "The port to expose the container on"
+  default     = 80
+}
