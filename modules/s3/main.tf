@@ -1,6 +1,10 @@
 resource "aws_s3_bucket" "private_bucket" {
   bucket        = var.private_bucket
   force_destroy = true
+
+  tags = {
+    Provisioner = "terraform"
+  }
 }
 
 resource "aws_s3_bucket_acl" "private_bucket_acl" {
@@ -11,6 +15,10 @@ resource "aws_s3_bucket_acl" "private_bucket_acl" {
 resource "aws_s3_bucket" "public_bucket" {
   bucket        = var.public_bucket
   force_destroy = true
+
+  tags = {
+    Provisioner = "terraform"
+  }
 }
 
 resource "aws_s3_bucket_acl" "public_bucket_acl" {

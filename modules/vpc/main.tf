@@ -80,6 +80,10 @@ resource "aws_route_table" "public" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
   }
+
+  tags = {
+    Provisioner = "terraform"
+  }
 }
 
 resource "aws_route_table" "private" {
@@ -88,6 +92,10 @@ resource "aws_route_table" "private" {
   route {
     cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.gateway.id
+  }
+
+  tags = {
+    Provisioner = "terraform"
   }
 }
 
@@ -112,4 +120,8 @@ resource "aws_vpc_endpoint" "s3" {
   service_name = "com.amazonaws.${var.region}.s3"
 
   route_table_ids = [aws_route_table.public.id, aws_route_table.private.id]
+
+  tags = {
+    Provisioner = "terraform"
+  }
 }
