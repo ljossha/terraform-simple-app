@@ -16,7 +16,7 @@ format: ## Format the Terraform configs
 .PHONY: help
 help: ## Display this help screen
 	$(call print,Available make targets:)
-	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "$(highlight)%-10s$(normal) %s\n", $$1, $$2}'
+	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "$(highlight)%-20s$(normal) %s\n", $$1, $$2}'
 	@printf "\n"
 
 .PHONY: lint
