@@ -1,5 +1,5 @@
 resource "aws_lb" "alb" {
-  name               = var.lb_name
+  name               = var.name
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.webdmz.id]
@@ -7,11 +7,12 @@ resource "aws_lb" "alb" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
 resource "aws_security_group" "webdmz" {
-  name        = "${var.lb_name}-dmz"
+  name        = "${var.name}-dmz"
   description = "Allow HTTP traffic from the world"
 
   vpc_id = var.vpc_id
@@ -39,5 +40,6 @@ resource "aws_security_group" "webdmz" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }

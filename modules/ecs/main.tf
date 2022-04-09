@@ -1,5 +1,5 @@
 resource "aws_ecs_cluster" "cluster" {
-  name = var.cluster_name
+  name = var.name
 
   configuration {
     execute_command_configuration {
@@ -14,8 +14,9 @@ resource "aws_ecs_cluster" "cluster" {
   }
 
   tags = {
-    Name        = var.cluster_name,
+    Name        = var.name,
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -24,6 +25,7 @@ resource "aws_kms_key" "kms" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -32,6 +34,7 @@ resource "aws_cloudwatch_log_group" "log_group" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -63,6 +66,7 @@ resource "aws_ecs_task_definition" "backend_task" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -91,6 +95,7 @@ resource "aws_ecs_service" "service" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -115,6 +120,7 @@ resource "aws_security_group" "service_security_group" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -137,6 +143,7 @@ resource "aws_lb_target_group" "target_group" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -152,6 +159,7 @@ resource "aws_lb_listener" "listener" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -161,6 +169,7 @@ resource "aws_iam_role" "ecsTaskExecutionRole" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 

@@ -1,5 +1,5 @@
 resource "aws_db_instance" "db" {
-  identifier        = "${var.name}-${var.environment}-db"
+  identifier        = var.name
   engine            = "postgres"
   engine_version    = var.engine_version
   instance_class    = var.instance_class
@@ -11,7 +11,7 @@ resource "aws_db_instance" "db" {
   db_subnet_group_name      = aws_db_subnet_group.group.id
   storage_encrypted         = var.encryption
   backup_retention_period   = var.backup_retention_period # days
-  final_snapshot_identifier = "${var.name}-${var.environment}-final-snapshot"
+  final_snapshot_identifier = "${var.name}-final-snapshot"
   skip_final_snapshot       = var.skip_final_snapshot
   # UTC time. Windows below cannot overlap.
   backup_window      = var.backup_window
@@ -27,6 +27,7 @@ resource "aws_db_instance" "db" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -51,6 +52,7 @@ resource "aws_security_group" "rds-sg" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -60,5 +62,6 @@ resource "aws_db_subnet_group" "group" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }

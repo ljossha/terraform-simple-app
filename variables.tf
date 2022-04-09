@@ -8,12 +8,19 @@ variable "app_name" {
   description = "The name of the application"
 }
 
-variable "public_bucket" {
+variable "environment" {
+  type        = string
+  description = "The environment"
+}
+
+# S3
+
+variable "s3_name_public_bucket" {
   type        = string
   description = "The name of the public S3 bucket"
 }
 
-variable "private_bucket" {
+variable "s3_name_private_bucket" {
   type        = string
   description = "The name of the private S3 bucket"
 }
@@ -24,12 +31,12 @@ variable "vpc_cidr" {
   description = "The CIDR block to use for the VPC"
 }
 
-variable "public_subnet_availability_zones" {
+variable "vpc_public_subnet_availability_zones" {
   type        = map(string)
   description = "The availability zones to use for the public subnets"
 }
 
-variable "private_subnet_availability_zones" {
+variable "vpc_private_subnet_availability_zones" {
   type        = map(string)
   description = "The availability zones to use for the private subnets"
 }
@@ -76,7 +83,7 @@ variable "db_maintenance_window" {
 
 # ECR
 
-variable "repository_name" {
+variable "ecr_repository_name" {
   type        = string
   description = "The name of the ECR repository"
 }
@@ -88,34 +95,39 @@ variable "lb_name" {
 }
 
 # ECS
-variable "family" {
+variable "ecr_cluster_name" {
+  type        = string
+  description = "The name of the ECS cluster"
+}
+
+variable "ecs_family" {
   type        = string
   description = "The name of the ECS family"
 }
 
-variable "container_name" {
+variable "ecs_container_name" {
   type        = string
   description = "The name of the ECS container"
 }
 
-variable "container_image" {
+variable "ecs_container_image" {
   type        = string
   description = "The name of the ECS container image"
 }
 
-variable "cpu" {
+variable "ecs_cpu" {
   type        = number
   description = "The number of CPU units to allocate"
   default     = 256
 }
 
-variable "memory" {
+variable "ecs_memory" {
   type        = number
   description = "The amount of memory to allocate"
   default     = 512
 }
 
-variable "container_port" {
+variable "ecs_container_port" {
   type        = number
   description = "The port to expose the container on"
   default     = 80

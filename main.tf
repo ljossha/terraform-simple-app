@@ -3,58 +3,74 @@ provider "aws" {
 }
 
 module "s3" {
-  source         = "./modules/s3"
-  public_bucket  = var.public_bucket
-  private_bucket = var.private_bucket
+  source = "./modules/s3"
+
+  environment    = var.environment
+  public_bucket  = var.s3_name_public_bucket
+  private_bucket = var.s3_name_private_bucket
+}
+
+module "cloudfront" {
+  source = "./modules/cloudfront"
+
+  environment = var.environment
+  app_name = var.app_name
+  s3_website_bucket_arn = module.s3.public_website_arn
+  s3_website_bucket_id = module.s3.public_website_id
+  s3_bucket_domain_name = module.s3.public_website_url
 }
 
 module "vpc" {
   source = "./modules/vpc"
 
-  name       = "riflpw-vpc"
-  cidr_block = var.vpc_cidr
-  region     = var.aws_region
+  name        = "${var.app_name}-${var.environment}-vpc"
+  environment = var.environment
+  cidr_block  = var.vpc_cidr
+  region      = var.aws_region
 
-  public_subnet_availability_zones = var.public_subnet_availability_zones
-
-  private_subnet_availability_zones = var.private_subnet_availability_zones
+  public_subnet_availability_zones  = var.vpc_public_subnet_availability_zones
+  private_subnet_availability_zones = var.vpc_private_subnet_availability_zones
 }
 
 module "alb" {
   source = "./modules/alb"
 
-  lb_name = var.lb_name
-  subnets = module.vpc.vpc_public_subnet_ids
-  vpc_id  = module.vpc.vpc_id
+  name        = "${var.app_name}-${var.environment}-lb"
+  environment = var.environment
+  subnets     = module.vpc.public_subnet_ids
+  vpc_id      = module.vpc.id
 }
 
-module "ecr_backend" {
+module "ecr" {
   source = "./modules/ecr"
 
-  repository_name = var.repository_name
+  name        = var.ecr_repository_name
+  environment = var.environment
 }
 
 module "ecs_cluster" {
   source = "./modules/ecs"
 
-  cluster_name = "test_cluster"
-  vpc_id       = module.vpc.vpc_id
-  alb_arn      = module.alb.alb_arn
+  name        = "${var.app_name}-${var.environment}-ecs-cluster"
+  vpc_id      = module.vpc.id
+  alb_arn     = module.alb.arn
+  environment = var.environment
 
-  family          = var.family
-  container_name  = var.container_name
-  container_image = var.container_image
-  cpu             = var.cpu
-  memory          = var.memory
-  container_port  = var.container_port
+  family          = var.ecs_family
+  container_name  = var.ecs_container_name
+  container_image = var.ecs_container_image
+  cpu             = var.ecs_cpu
+  memory          = var.ecs_memory
+  container_port  = var.ecs_container_port
 
-  subnets = module.vpc.vpc_public_subnet_ids
+  subnets = module.vpc.public_subnet_ids
 }
 
 module "rds" {
   source = "./modules/rds_postgres"
 
-  name              = var.db_name
+  name              = "${var.app_name}-${var.environment}-db"
+  environment       = var.environment
   engine_version    = var.db_engine_version
   password          = random_string.password.result
   instance_class    = var.db_instance_class
@@ -62,7 +78,7 @@ module "rds" {
 
   subnet_ids = module.vpc.private_subnet_ids
   ecs_sg_id  = module.ecs_cluster.ecs_sg_id
-  vpc_id     = module.vpc.vpc_id
+  vpc_id     = module.vpc.id
 
   encryption = true
 

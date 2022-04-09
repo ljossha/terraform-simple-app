@@ -4,37 +4,37 @@ variable "alb_arn" {
 }
 
 variable "family" {
-  type = string
+  type        = string
   description = "The name of the target group family"
 }
 
 variable "container_name" {
-  type = string
+  type        = string
   description = "The name of the container to deploy"
 }
 
-variable "cluster_name" {
-  type = string
+variable "name" {
+  type        = string
   description = "The name of the cluster"
 }
 
 variable "container_image" {
-  type = string
+  type        = string
   description = "The container image to use"
 }
 
 variable "cpu" {
-  type = number
+  type        = number
   description = "The number of CPU units to allocate to the container"
 }
 
 variable "memory" {
-  type = number
+  type        = number
   description = "Memory in MB"
 }
 
 variable "container_port" {
-  type = number
+  type        = number
   description = "The port the container will be listening on"
 }
 
@@ -46,4 +46,9 @@ variable "vpc_id" {
 variable "subnets" {
   type        = list(string)
   description = "The subnets to use for the load balancer"
+}
+
+variable "environment" {
+  type        = string
+  description = "The environment"
 }

@@ -1,4 +1,4 @@
-variable "lb_name" {
+variable "name" {
   type        = string
   description = "The name of the load balancer"
 }
@@ -11,4 +11,9 @@ variable "vpc_id" {
 variable "subnets" {
   type        = list(string)
   description = "The subnets to use for the load balancer"
+}
+
+variable "environment" {
+  type        = string
+  description = "The environment"
 }

@@ -4,6 +4,7 @@ resource "aws_s3_bucket" "state" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -54,6 +55,7 @@ resource "aws_dynamodb_table" "state" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 

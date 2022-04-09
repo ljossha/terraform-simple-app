@@ -4,6 +4,7 @@ resource "aws_s3_bucket" "private_bucket" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -18,6 +19,7 @@ resource "aws_s3_bucket" "public_bucket" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 

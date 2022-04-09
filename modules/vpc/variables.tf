@@ -22,3 +22,8 @@ variable "region" {
   type        = string
   description = "The region to create the VPC in"
 }
+
+variable "environment" {
+  type        = string
+  description = "The environment"
+}

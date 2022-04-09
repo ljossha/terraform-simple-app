@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "repo" {
-  name                 = var.repository_name
+  name                 = var.name
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -8,5 +8,6 @@ resource "aws_ecr_repository" "repo" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }

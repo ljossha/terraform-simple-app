@@ -8,6 +8,7 @@ resource "aws_vpc" "production_vpc" {
   tags = {
     Name        = var.name
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -16,6 +17,7 @@ resource "aws_internet_gateway" "igw" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -29,6 +31,7 @@ resource "aws_subnet" "public_subnet" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -42,6 +45,7 @@ resource "aws_subnet" "private_subnet" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -59,6 +63,7 @@ resource "aws_nat_gateway" "gateway" {
   tags = {
     Name        = var.name
     Provisioner = "terraform"
+    Environment = var.environment
   }
 
   depends_on = [aws_internet_gateway.igw]
@@ -68,8 +73,9 @@ resource "aws_eip" "nat_gateway" {
   vpc = true
 
   tags = {
-    Name        = "${var.name}_nat_gateway"
+    Name        = "${var.name}"
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -83,6 +89,7 @@ resource "aws_route_table" "public" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -96,6 +103,7 @@ resource "aws_route_table" "private" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }
 
@@ -123,5 +131,6 @@ resource "aws_vpc_endpoint" "s3" {
 
   tags = {
     Provisioner = "terraform"
+    Environment = var.environment
   }
 }

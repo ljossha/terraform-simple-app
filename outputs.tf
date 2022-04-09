@@ -9,3 +9,15 @@ output "database_endpoint" {
 output "database_password" {
   value = random_string.password.result
 }
+
+output "load_balancer_url" {
+  value = module.alb.dns_name
+}
+
+output "ecr_link" {
+  value = module.ecr.repository_url
+}
+
+output "cloudfront_link" {
+  value = module.cloudfront.cloudfront_domain_name
+}
