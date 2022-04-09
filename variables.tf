@@ -3,6 +3,11 @@ variable "aws_region" {
   description = "The AWS region to use"
 }
 
+variable "app_name" {
+  type        = string
+  description = "The name of the application"
+}
+
 variable "public_bucket" {
   type        = string
   description = "The name of the public S3 bucket"
@@ -35,34 +40,38 @@ variable "db_name" {
   description = "The database name"
 }
 
-variable "db_engine" {
-  type        = string
-  description = "The database engine to use"
-  default     = "mysql"
-}
-
-variable "db_version" {
-  type        = string
-  description = "The database engine version to use"
-  default     = "5.7"
-}
-
 variable "db_allocated_storage" {
   type        = string
   description = "The database allocated storage"
-  default     = "1"
+  default     = "20"
 }
 
 variable "db_engine_version" {
   type        = string
   description = "The database engine version to use"
-  default     = "5.7"
 }
 
 variable "db_instance_class" {
   type        = string
   description = "The database instance class"
-  default     = "db.t2.micro"
+}
+
+variable "db_backup_retention_period" {
+  type        = string
+  description = "The database backup retention period"
+  default     = "7"
+}
+
+variable "db_backup_window" {
+  type        = string
+  description = "The database backup window"
+  default     = "07:00-09:00"
+}
+
+variable "db_maintenance_window" {
+  type        = string
+  description = "The database maintenance window"
+  default     = "Mon:04:00-Mon:04:30"
 }
 
 # ECR

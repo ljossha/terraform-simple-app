@@ -52,14 +52,23 @@ module "ecs_cluster" {
 }
 
 module "rds" {
-  source = "./modules/rds"
+  source = "./modules/rds_postgres"
 
   name              = var.db_name
-  engine            = var.db_engine
-  engine_version    = var.db_version
+  engine_version    = var.db_engine_version
   password          = random_string.password.result
   instance_class    = var.db_instance_class
   allocated_storage = var.db_allocated_storage
+
+  subnet_ids = module.vpc.private_subnet_ids
+  ecs_sg_id  = module.ecs_cluster.ecs_sg_id
+  vpc_id     = module.vpc.vpc_id
+
+  encryption = true
+
+  backup_retention_period = var.db_backup_retention_period # days
+  backup_window           = var.db_backup_window           # UTC. Cannot overlap with maintenance_window.
+  maintenance_window      = var.db_maintenance_window      # UTC. Cannot overlap with backup_window.
 }
 
 resource "random_string" "password" {

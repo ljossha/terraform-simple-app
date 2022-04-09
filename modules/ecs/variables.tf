@@ -8,7 +8,7 @@ variable "family" {
 }
 
 variable "container_name" {
-
+  type = string
 }
 
 variable "cluster_name" {

@@ -1,5 +1,6 @@
 # Default
 aws_region = "eu-central-1"
+app_name = "riflpw"
 
 # VPC
 vpc_cidr = "10.0.0.0/16"
@@ -17,11 +18,14 @@ private_bucket = "riflpw-documents"
 public_bucket  = "riflpw-public"
 
 # RDS
-db_name              = "riflpw"
-db_engine            = "postgres"
-db_version           = "9.6"
-db_instance_class    = "db.t2.micro"
-db_allocated_storage = "10"
+db_name                    = "riflpw"
+db_engine                  = "postgres"
+db_engine_version          = "9.6"
+db_instance_class          = "db.t3.micro"
+db_allocated_storage       = "10"
+db_backup_retention_period = 14                    # days
+db_backup_window           = "18:30-19:00"         # UTC. Cannot overlap with db_maintenance_window.
+db_maintenance_window      = "Sun:19:00-Sun:19:30" # UTC. Cannot overlap with db_backup_window.
 
 # ECR
 repository_name = "riflpw/backend"
