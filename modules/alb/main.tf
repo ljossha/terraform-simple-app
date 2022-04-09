@@ -18,24 +18,30 @@ resource "aws_security_group" "webdmz" {
   vpc_id = var.vpc_id
 
   ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
+    from_port = 443
+    to_port   = 443
+    protocol  = "tcp"
+    #tfsec:ignore:aws-vpc-no-public-ingress-sgr
     cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow HTTPS traffic from the world"
   }
 
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
+    from_port = 80
+    to_port   = 80
+    protocol  = "tcp"
+    #tfsec:ignore:aws-vpc-no-public-ingress-sgr
     cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow HTTP traffic from the world"
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    #tfsec:ignore:aws-vpc-no-public-egress-sgr
     cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow all outbound traffic"
   }
 
   tags = {

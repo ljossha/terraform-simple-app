@@ -38,3 +38,8 @@ destroy: ## Destroy the Terraform configs
 plan: ## Plan the Terraform configs
 	$(call print,Planning Terraform...)
 	@terraform plan
+
+.PHONY: security-check
+security-check: ## Run tfsec on the Terraform configs
+	$(call print,Running tfsec...)
+	@tfsec

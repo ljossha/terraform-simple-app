@@ -32,7 +32,8 @@ resource "aws_db_instance" "db" {
 }
 
 resource "aws_security_group" "rds-sg" {
-  vpc_id = var.vpc_id
+  vpc_id      = var.vpc_id
+  description = "Allow access to RDS"
 
   ingress {
     description     = "Access to database from ecs cluster"
@@ -43,11 +44,11 @@ resource "aws_security_group" "rds-sg" {
   }
 
   egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    #tfsec:ignore:aws-vpc-no-public-egress-sgr
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {

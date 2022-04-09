@@ -22,6 +22,7 @@ resource "aws_ecs_cluster" "cluster" {
 
 resource "aws_kms_key" "kms" {
   deletion_window_in_days = 7
+  enable_key_rotation     = true
 
   tags = {
     Provisioner = "terraform"
@@ -100,22 +101,25 @@ resource "aws_ecs_service" "service" {
 }
 
 resource "aws_security_group" "service_security_group" {
-  vpc_id = var.vpc_id
+  vpc_id      = var.vpc_id
+  description = "Allow HTTP access to the ECS service"
 
   ingress {
-    from_port        = 80
-    to_port          = 80
-    protocol         = "TCP"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
+    from_port = 80
+    to_port   = 80
+    protocol  = "TCP"
+    #tfsec:ignore:aws-vpc-no-public-ingress-sgr
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow HTTP traffic from the world"
   }
 
   egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    #tfsec:ignore:aws-vpc-no-public-egress-sgr
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow all outbound traffic"
   }
 
   tags = {
@@ -150,7 +154,9 @@ resource "aws_lb_target_group" "target_group" {
 resource "aws_lb_listener" "listener" {
   load_balancer_arn = var.alb_arn
   port              = 80
-  protocol          = "HTTP"
+  /* TODO: Change HTTP to HTTPS when SSL will be implemented */
+  #tfsec:ignore:aws-elb-http-not-used
+  protocol = "HTTP"
 
   default_action {
     type             = "forward"
