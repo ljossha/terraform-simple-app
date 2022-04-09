@@ -13,10 +13,10 @@ module "s3" {
 module "cloudfront" {
   source = "./modules/cloudfront"
 
-  environment = var.environment
-  app_name = var.app_name
+  environment           = var.environment
+  app_name              = var.app_name
   s3_website_bucket_arn = module.s3.public_website_arn
-  s3_website_bucket_id = module.s3.public_website_id
+  s3_website_bucket_id  = module.s3.public_website_id
   s3_bucket_domain_name = module.s3.public_website_url
 }
 

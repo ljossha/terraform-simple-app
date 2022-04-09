@@ -77,6 +77,6 @@ resource "aws_s3_bucket_policy" "website_bucket" {
 resource "aws_s3_bucket_public_access_block" "website_bucket" {
   bucket = var.s3_website_bucket_id
 
-  block_public_acls       = true
-  block_public_policy     = true
+  block_public_acls   = true
+  block_public_policy = true
 }
