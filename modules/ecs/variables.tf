@@ -52,3 +52,8 @@ variable "environment" {
   type        = string
   description = "The environment"
 }
+
+variable "policies" {
+  type        = list(string)
+  description = "The policies to apply to ecs execution role"
+}

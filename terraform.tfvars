@@ -36,3 +36,6 @@ ecs_container_image = "tutum/hello-world"
 ecs_cpu             = 1024
 ecs_memory          = 2048
 ecs_container_port  = 80
+
+# IAM
+username = "riflpw-developer"

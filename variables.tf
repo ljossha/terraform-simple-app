@@ -132,3 +132,9 @@ variable "ecs_container_port" {
   description = "The port to expose the container on"
   default     = 80
 }
+
+# IAM
+variable "username" {
+  type = string
+  description = "The username to use for the user"
+}

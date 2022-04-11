@@ -11,7 +11,7 @@ resource "aws_db_instance" "db" {
   db_subnet_group_name      = aws_db_subnet_group.group.id
   storage_encrypted         = var.encryption
   backup_retention_period   = var.backup_retention_period # days
-  final_snapshot_identifier = "${var.name}-final-snapshot"
+  final_snapshot_identifier = "${var.name}-final-snapshot-${formatdate("YYYYMMDDhhmmss", timestamp())}"
   skip_final_snapshot       = var.skip_final_snapshot
   # UTC time. Windows below cannot overlap.
   backup_window      = var.backup_window

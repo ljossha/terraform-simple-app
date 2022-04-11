@@ -9,3 +9,7 @@ output "public_website_id" {
 output "public_website_arn" {
   value = aws_s3_bucket.public_bucket.arn
 }
+
+output "s3_full_access_policy_arn" {
+  value = aws_iam_policy.policy.arn
+}

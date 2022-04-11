@@ -20,6 +20,8 @@ I've implemented a simple web application using [terraform](https://www.terrafor
 
 - LB: application load balancer under ECS cluster.
 
+- IAM: created a user with credentials to access your S3 buckets to use in programmatic way.
+
 ## How to use
 
 ```bash

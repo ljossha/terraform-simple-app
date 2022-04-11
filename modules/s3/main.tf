@@ -23,11 +23,6 @@ resource "aws_s3_bucket" "public_bucket" {
   }
 }
 
-resource "aws_s3_bucket_acl" "public_bucket_acl" {
-  bucket = aws_s3_bucket.public_bucket.id
-  acl    = "public-read"
-}
-
 resource "aws_s3_bucket_cors_configuration" "public_bucket_cors" {
   bucket = aws_s3_bucket.public_bucket.id
   cors_rule {
@@ -48,4 +43,22 @@ resource "aws_s3_bucket_website_configuration" "public_bucket_website" {
   error_document {
     key = "index.html"
   }
+}
+
+data "aws_iam_policy_document" "private_bucket" {
+  statement {
+    actions = ["*"]
+
+    resources = [
+      "arn:aws:s3:::${var.private_bucket}/*"
+    ]
+  }
+}
+
+resource "aws_iam_policy" "policy" {
+  name        = "S3-FullAccess-${var.private_bucket}"
+  path        = "/"
+  description = "Policy for accessing the private bucket"
+
+  policy = data.aws_iam_policy_document.private_bucket.json
 }

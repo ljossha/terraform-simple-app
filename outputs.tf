@@ -8,6 +8,7 @@ output "database_endpoint" {
 
 output "database_password" {
   value = random_string.password.result
+  sensitive = true
 }
 
 output "load_balancer_url" {
@@ -20,4 +21,14 @@ output "ecr_link" {
 
 output "cloudfront_link" {
   value = module.cloudfront.cloudfront_domain_name
+}
+
+output "user_access_key" {
+  value = module.iam.access_key
+  sensitive = true
+}
+
+output "user_secret_key" {
+  value = module.iam.secret_key
+  sensitive = true
 }

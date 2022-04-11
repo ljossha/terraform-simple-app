@@ -48,7 +48,7 @@ module "ecr" {
   environment = var.environment
 }
 
-module "ecs_cluster" {
+module "ecs" {
   source = "./modules/ecs"
 
   name        = "${var.app_name}-${var.environment}-ecs-cluster"
@@ -64,6 +64,9 @@ module "ecs_cluster" {
   container_port  = var.ecs_container_port
 
   subnets = module.vpc.public_subnet_ids
+  policies = [
+    module.s3.s3_full_access_policy_arn,
+  ]
 }
 
 module "rds" {
@@ -77,7 +80,7 @@ module "rds" {
   allocated_storage = var.db_allocated_storage
 
   subnet_ids = module.vpc.private_subnet_ids
-  ecs_sg_id  = module.ecs_cluster.ecs_sg_id
+  ecs_sg_id  = module.ecs.ecs_sg_id
   vpc_id     = module.vpc.id
 
   encryption = true
@@ -85,6 +88,16 @@ module "rds" {
   backup_retention_period = var.db_backup_retention_period # days
   backup_window           = var.db_backup_window           # UTC. Cannot overlap with maintenance_window.
   maintenance_window      = var.db_maintenance_window      # UTC. Cannot overlap with backup_window.
+}
+
+module "iam" {
+  source = "./modules/iam"
+
+  name = var.username
+  environment = var.environment
+
+  s3_name_public_bucket = var.s3_name_public_bucket
+  s3_name_private_bucket = var.s3_name_private_bucket
 }
 
 resource "random_string" "password" {
