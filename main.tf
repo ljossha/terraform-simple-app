@@ -93,10 +93,10 @@ module "rds" {
 module "iam" {
   source = "./modules/iam"
 
-  name = var.username
+  name        = var.username
   environment = var.environment
 
-  s3_name_public_bucket = var.s3_name_public_bucket
+  s3_name_public_bucket  = var.s3_name_public_bucket
   s3_name_private_bucket = var.s3_name_private_bucket
 }
 

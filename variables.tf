@@ -135,6 +135,6 @@ variable "ecs_container_port" {
 
 # IAM
 variable "username" {
-  type = string
+  type        = string
   description = "The username to use for the user"
 }

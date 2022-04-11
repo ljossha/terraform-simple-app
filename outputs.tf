@@ -7,7 +7,7 @@ output "database_endpoint" {
 }
 
 output "database_password" {
-  value = random_string.password.result
+  value     = random_string.password.result
   sensitive = true
 }
 
@@ -24,11 +24,11 @@ output "cloudfront_link" {
 }
 
 output "user_access_key" {
-  value = module.iam.access_key
+  value     = module.iam.access_key
   sensitive = true
 }
 
 output "user_secret_key" {
-  value = module.iam.secret_key
+  value     = module.iam.secret_key
   sensitive = true
 }
