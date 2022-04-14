@@ -1,14 +1,14 @@
-resource "aws_instance" "web" {
+resource "aws_instance" "ec2" {
   ami           = var.ami
   instance_type = var.instance_type
-  security_groups = [ 
+  security_groups = [
     aws_security_group.allow_ssh.arn,
   ]
   subnet_id = var.subnets[0]
-  key_name = aws_key_pair.deployer
-  
+  key_name  = aws_key_pair.deployer
+
   root_block_device {
-    iops = 150
+    iops        = 150
     volume_size = var.volume_size
     volume_type = "gp2"
   }
@@ -16,7 +16,7 @@ resource "aws_instance" "web" {
   tags = {
     Environment = var.environment
     Provisioner = "terraform"
-    Name = var.name
+    Name        = var.name
   }
 }
 

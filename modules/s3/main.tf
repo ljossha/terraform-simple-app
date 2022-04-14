@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "private_bucket" {
+resource "aws_s3_bucket" "private" {
   bucket        = var.private_bucket
   force_destroy = true
 
@@ -9,7 +9,7 @@ resource "aws_s3_bucket" "private_bucket" {
 }
 
 resource "aws_s3_bucket_acl" "private_bucket_acl" {
-  bucket = aws_s3_bucket.private_bucket.id
+  bucket = aws_s3_bucket.private.id
   acl    = "private"
 }
 
@@ -45,7 +45,7 @@ resource "aws_s3_bucket_website_configuration" "public_bucket_website" {
   }
 }
 
-data "aws_iam_policy_document" "private_bucket" {
+data "aws_iam_policy_document" "private" {
   statement {
     actions = ["*"]
 
@@ -60,5 +60,5 @@ resource "aws_iam_policy" "policy" {
   path        = "/"
   description = "Policy for accessing the private bucket"
 
-  policy = data.aws_iam_policy_document.private_bucket.json
+  policy = data.aws_iam_policy_document.private.json
 }

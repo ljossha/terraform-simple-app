@@ -18,7 +18,7 @@ resource "aws_db_instance" "db" {
   maintenance_window = var.maintenance_window
 
   vpc_security_group_ids = [
-    aws_security_group.rds-sg.id,
+    aws_security_group.rds.id,
   ]
 
   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
@@ -31,7 +31,7 @@ resource "aws_db_instance" "db" {
   }
 }
 
-resource "aws_security_group" "rds-sg" {
+resource "aws_security_group" "rds" {
   vpc_id      = var.vpc_id
   description = "Allow access to RDS"
 

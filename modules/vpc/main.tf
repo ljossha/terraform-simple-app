@@ -1,4 +1,4 @@
-resource "aws_vpc" "production_vpc" {
+resource "aws_vpc" "vpc" {
   cidr_block = var.cidr_block
 
   instance_tenancy     = "default"
@@ -13,7 +13,7 @@ resource "aws_vpc" "production_vpc" {
 }
 
 resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.production_vpc.id
+  vpc_id = aws_vpc.vpc.id
 
   tags = {
     Provisioner = "terraform"
@@ -21,13 +21,13 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
-resource "aws_subnet" "public_subnet" {
+resource "aws_subnet" "public" {
   for_each = var.public_subnet_availability_zones
 
-  vpc_id            = aws_vpc.production_vpc.id
+  vpc_id            = aws_vpc.vpc.id
   availability_zone = each.key
 
-  cidr_block = cidrsubnet(aws_vpc.production_vpc.cidr_block, 4, each.value)
+  cidr_block = cidrsubnet(aws_vpc.vpc.cidr_block, 4, each.value)
 
   tags = {
     Provisioner = "terraform"
@@ -35,13 +35,13 @@ resource "aws_subnet" "public_subnet" {
   }
 }
 
-resource "aws_subnet" "private_subnet" {
+resource "aws_subnet" "private" {
   for_each = var.private_subnet_availability_zones
 
-  vpc_id            = aws_vpc.production_vpc.id
+  vpc_id            = aws_vpc.vpc.id
   availability_zone = each.key
 
-  cidr_block = cidrsubnet(aws_vpc.production_vpc.cidr_block, 4, each.value)
+  cidr_block = cidrsubnet(aws_vpc.vpc.cidr_block, 4, each.value)
 
   tags = {
     Provisioner = "terraform"
@@ -51,7 +51,7 @@ resource "aws_subnet" "private_subnet" {
 
 locals {
   public_subnet_ids = [
-    for each_item in aws_subnet.public_subnet :
+    for each_item in aws_subnet.public :
     each_item.id
   ]
 }
@@ -80,7 +80,7 @@ resource "aws_eip" "nat_gateway" {
 }
 
 resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.production_vpc.id
+  vpc_id = aws_vpc.vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -94,7 +94,7 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route_table" "private" {
-  vpc_id = aws_vpc.production_vpc.id
+  vpc_id = aws_vpc.vpc.id
 
   route {
     cidr_block     = "0.0.0.0/0"
@@ -107,15 +107,15 @@ resource "aws_route_table" "private" {
   }
 }
 
-resource "aws_route_table_association" "public_subnet" {
-  for_each = aws_subnet.public_subnet
+resource "aws_route_table_association" "public" {
+  for_each = aws_subnet.public
 
   subnet_id      = each.value.id
   route_table_id = aws_route_table.public.id
 }
 
-resource "aws_route_table_association" "private_subnet" {
-  for_each = aws_subnet.private_subnet
+resource "aws_route_table_association" "private" {
+  for_each = aws_subnet.private
 
   subnet_id      = each.value.id
   route_table_id = aws_route_table.private.id
@@ -124,7 +124,7 @@ resource "aws_route_table_association" "private_subnet" {
 # VPC Endpoints
 
 resource "aws_vpc_endpoint" "s3" {
-  vpc_id       = aws_vpc.production_vpc.id
+  vpc_id       = aws_vpc.vpc.id
   service_name = "com.amazonaws.${var.region}.s3"
 
   route_table_ids = [aws_route_table.public.id, aws_route_table.private.id]

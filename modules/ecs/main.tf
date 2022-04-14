@@ -31,7 +31,7 @@ resource "aws_kms_key" "kms" {
 }
 
 resource "aws_cloudwatch_log_group" "log_group" {
-  name = "example"
+  name = "/aws/ecs/${var.name}"
 
   tags = {
     Provisioner = "terraform"

@@ -42,7 +42,7 @@ plan: ## Plan the Terraform configs
 .PHONY: security-check
 security-check: ## Run tfsec on the Terraform configs
 	$(call print,Running tfsec...)
-	@docker run --rm -it -v "$(pwd):/src" aquasec/tfsec /src
+	@tfsec
 
 .PHONY: read-secrets
 read-secrets: ## Read the Terraform secrets

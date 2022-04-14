@@ -5,31 +5,31 @@ variable "volume_size" {
 
 variable "instance_type" {
   type        = string
-  description = "The type of the instance"  
+  description = "The type of the instance"
 }
 
 variable "ami" {
   type        = string
-  description = "The AMI to use" 
+  description = "The AMI to use"
 }
 
 variable "vpc_id" {
   type        = string
-  description = "The VPC ID"  
+  description = "The VPC ID"
 }
 
 variable "subnets" {
   type        = list(string)
-  description = "The subnets to use"    
+  description = "The subnets to use"
 }
 
 variable "environment" {
   type        = string
-  description = "The environment of the user" 
+  description = "The environment of the user"
 }
 
 variable "public_key" {
-  type = string
+  type        = string
   description = "The public key to use"
 }
 
@@ -39,6 +39,6 @@ variable "name" {
 }
 
 variable "volume_size" {
-  type = number
+  type        = number
   description = "The size of the volume"
 }
